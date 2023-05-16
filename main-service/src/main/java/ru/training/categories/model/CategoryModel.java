@@ -22,7 +22,7 @@ public class CategoryModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long categoryId;
-    @Column(name = "name_")
+    @Column(name = "name_", unique = true)
     private String categoryName;
     @Column(name = "description")
     private String categoryDescription;

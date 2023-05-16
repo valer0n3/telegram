@@ -1,6 +1,7 @@
 package ru.training.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,4 +27,16 @@ public class TrainingErrorHandler {
         return new TrainingExceptionModel(HttpStatus.NOT_FOUND.toString(),
                 trainingNotFoundException.getMessage(), LocalDateTime.now());
     }
+
+
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public TrainingExceptionModel integrityViolation(DataIntegrityViolationException dataIntegrityViolationException) {
+        log.warn("Error 404: {}", dataIntegrityViolationException.getRootCause().toString());
+        return new TrainingExceptionModel(HttpStatus.CONFLICT.toString(),
+                dataIntegrityViolationException.getRootCause().toString(), LocalDateTime.now());
+    }
+
+
 }
