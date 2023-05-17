@@ -13,5 +13,5 @@ public interface CategoryService {
 
     List<DtoCategoryGet> getAllCategories(int from, int size);
 
-    DtoCategoryPost updateCategory(long category_id, DtoCategoryPatch dtoCategoryPatch);
+    DtoCategoryGet updateCategory(long category_id, DtoCategoryPatch dtoCategoryPatch);
 }

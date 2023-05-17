@@ -1,5 +1,6 @@
 package ru.training.exceptions;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,14 @@ public class TrainingErrorHandler {
         log.warn("Error 404: {}", dataIntegrityViolationException.getRootCause().toString());
         return new TrainingExceptionModel(HttpStatus.CONFLICT.toString(),
                 dataIntegrityViolationException.getRootCause().toString(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public TrainingExceptionModel constraintViolation(ConstraintViolationException constraintViolationException) {
+        log.warn("Error 404: {}", constraintViolationException.getMessage().toString());
+        return new TrainingExceptionModel(HttpStatus.CONFLICT.toString(),
+                constraintViolationException.getMessage().toString(), LocalDateTime.now());
     }
 
 

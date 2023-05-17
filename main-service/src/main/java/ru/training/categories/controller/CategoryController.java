@@ -1,5 +1,9 @@
 package ru.training.categories.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -18,8 +22,6 @@ import ru.training.categories.dto.DtoCategoryPatch;
 import ru.training.categories.dto.DtoCategoryPost;
 import ru.training.categories.service.CategoryService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -47,8 +49,8 @@ public class CategoryController {
         return categoryService.getAllCategories(from, size);
     }
 
-    @PatchMapping("/category_id")
-    public DtoCategoryPost updateCategory(@PathVariable("category_id") @Min(0) long category_id,
+    @PatchMapping("/{category_id}")
+    public DtoCategoryGet updateCategory(@PathVariable("category_id") @Min(1) long category_id,
                                           @RequestBody DtoCategoryPatch dtoCategoryPatch) {
         return categoryService.updateCategory(category_id, dtoCategoryPatch);
     }
