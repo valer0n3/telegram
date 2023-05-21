@@ -22,7 +22,7 @@ public class TrainingProgramModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "training_program_id")
     private Long trainingProgramId;
-    @Column(name = "name_")
+    @Column(name = "name_", unique = true)
     private String trainingProgramName;
     @Column(name = "description")
     private String trainingProgramDescription;

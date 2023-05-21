@@ -56,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryRepository.save(categoryModelForUpdate);
         return categoryMapper.mapCategoryModeltoDTOCategoryGet(categoryModelForUpdate);
+   //TODO create own annotation if DTOPatch is empty then no need to update anything; If both are balnk then message
     }
 
     private CategoryModel checkIfCategoryExists(long category_id) {

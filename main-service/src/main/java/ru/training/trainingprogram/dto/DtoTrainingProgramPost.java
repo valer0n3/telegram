@@ -1,4 +1,4 @@
-package ru.training.categories.dto;
+package ru.training.trainingprogram.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -12,9 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DtoCategoryPost {
+public class DtoTrainingProgramPost {
     @NotBlank
-    private String name;
-    private String description;
-    //TODO delete NOt null annotation
+    private String trainingProgramName;
+    private String trainingProgramDescription;
 }

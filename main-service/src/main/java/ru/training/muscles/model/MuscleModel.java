@@ -31,7 +31,7 @@ import java.util.List;
 public class MuscleModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "muscle_id")
+    @Column(name = "muscle_id", unique = true)
     private Long muscle_id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
