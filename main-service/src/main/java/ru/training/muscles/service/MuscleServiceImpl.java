@@ -15,6 +15,7 @@ import ru.training.trainingprogram.repository.TrainingProgramRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,12 +37,12 @@ public class MuscleServiceImpl implements MuscleService {
         }
         MuscleModel muscleModel = muscleRepository.save(muscleMapper
                 .mapDtoMusclePostToMuscleModel(dtoMusclePost, trainingProgramModels, categoryModel));
-
-        return null;
+        return muscleMapper.mapMuscleModelToDtoMuscleGet(muscleModel);
     }
 
     @Override
-    public DtoMuscleGet getMuscleTrainingProgram(String muscleName) {
-        return null;
+    public List<DtoMuscleGet> getMuscleTrainingProgram(String muscleName) {
+        return muscleRepository.findAllByMuscleNameContainingIgnoreCase(muscleName).stream()
+                .map(muscleMapper::mapMuscleModelToDtoMuscleGet).collect(Collectors.toList());
     }
 }

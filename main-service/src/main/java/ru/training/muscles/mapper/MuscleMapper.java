@@ -3,6 +3,7 @@ package ru.training.muscles.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.training.categories.model.CategoryModel;
+import ru.training.muscles.dto.DtoMuscleGet;
 import ru.training.muscles.dto.DtoMusclePost;
 import ru.training.muscles.model.MuscleModel;
 import ru.training.trainingprogram.model.TrainingProgramModel;
@@ -18,4 +19,10 @@ public interface MuscleMapper {
     MuscleModel mapDtoMusclePostToMuscleModel(DtoMusclePost dtoMusclePost,
                                               List<TrainingProgramModel> trainingProgramModel,
                                               CategoryModel categoryModel);
+
+    @Mapping(target = "muscleId", source = "muscleId")
+    @Mapping(target = "muscleName", source = "muscleName")
+    @Mapping(target = "muscleDescription", source = "muscleDescription")
+    @Mapping(target = "trainingProgramModel", source = "trainingProgramModel")
+    DtoMuscleGet mapMuscleModelToDtoMuscleGet(MuscleModel muscleModel);
 }

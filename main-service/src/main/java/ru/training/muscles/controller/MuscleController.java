@@ -14,6 +14,8 @@ import ru.training.muscles.dto.DtoMuscleGet;
 import ru.training.muscles.dto.DtoMusclePost;
 import ru.training.muscles.service.MuscleService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/muscle")
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public class MuscleController {
     }
 
     @GetMapping
-    public DtoMuscleGet getMuscleTrainingProgram(@RequestParam(name = "muscleName") @NotBlank String muscleName) {
-        return null;
+    public List<DtoMuscleGet> getMuscleTrainingProgram(@RequestParam(name = "muscleName") @NotBlank String muscleName) {
+        return muscleService.getMuscleTrainingProgram(muscleName);
     }
 }
