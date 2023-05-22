@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
    //TODO create own annotation if DTOPatch is empty then no need to update anything; If both are balnk then message
     }
 
-    private CategoryModel checkIfCategoryExists(long category_id) {
+    public CategoryModel checkIfCategoryExists(long category_id) {
         return categoryRepository.findById(category_id)
                 .orElseThrow(() -> new TrainingNotFoundException(String
                         .format("Category with Id: %d is not existed", category_id)));
