@@ -2,8 +2,6 @@ package ru.training.categories.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -51,7 +49,7 @@ public class CategoryController {
 
     @PatchMapping("/{category_id}")
     public DtoCategoryGet updateCategory(@PathVariable("category_id") @Min(1) long category_id,
-                                          @RequestBody DtoCategoryPatch dtoCategoryPatch) {
+                                         @Valid @RequestBody DtoCategoryPatch dtoCategoryPatch) {
         return categoryService.updateCategory(category_id, dtoCategoryPatch);
     }
 }
