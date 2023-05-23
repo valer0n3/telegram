@@ -13,13 +13,6 @@ import lombok.Setter;
         field = "test",
         fieldMatch = "test2",
         message = "Fields name and desription are null. There is nothing to change!")
-
-
-/*@ValidationNameAndDescrFieldsAreNull(
-        field = "test",
-        fieldMatch = "test2",
-        message = "Fields are null!"
-)*/
 public class DtoClassTest {
     private String test;
     private String test2;

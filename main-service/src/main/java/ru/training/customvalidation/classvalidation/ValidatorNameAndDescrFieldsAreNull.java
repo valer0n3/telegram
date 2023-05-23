@@ -12,7 +12,6 @@ public class ValidatorNameAndDescrFieldsAreNull implements ConstraintValidator<V
     public void initialize(ValidationNameAndDescrFieldsAreNull constraintAnnotation) {
         this.field = constraintAnnotation.field();
         this.fieldMatch = constraintAnnotation.fieldMatch();
-        System.out.println("*****" + this.field);
     }
 
     @Override
