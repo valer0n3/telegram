@@ -1,6 +1,6 @@
 package ru.training.service;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -9,22 +9,25 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.training.config.BotConfig;
 
 @Component
-@AllArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
+
+    public TelegramBot(@Value("${bot.token}") String botToken, BotConfig botConfig) {
+        super(botToken);
+        this.botConfig = botConfig;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            //   long chatId = update.getMessage().getChatId();
             switch (update.getMessage().getText()) {
                 case "/start":
                     startCommandRecieved(update);
                     break;
             }
-            //  System.out.println(update.getMessage().getText());
         }
     }
+
 
     private void startCommandRecieved(Update update) {
         long chatId = update.getMessage().getChatId();
@@ -52,8 +55,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botConfig.getBotName();
     }
 
-    @Override
+/*    @Override
     public String getBotToken() {
         return botConfig.getToken();
-    }
+    }*/
 }
