@@ -10,19 +10,21 @@ import java.util.List;
 public class WebClientController {
     private final WebClient webClient;
 
-    public WebClientController(@Value("${stats-server.url}") String statServerUrl) {
+    public WebClientController(@Value("${main-service.url}") String statServerUrl) {
         this.webClient = WebClient.create(statServerUrl);
     }
 
-    public List<DtoMuscleGet> getMuscle(String muscle) {
-        List<String> getStatDtoList = webClient.get()
+    public List<Object> getMuscle(String muscle) {
+        List<Object> getStatDtoList = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/muscle")
+                        .queryParam("muscleName", muscle)
                         .build())
+                //.uri("${main-service.url}/muscle")
                 .retrieve()
-                .bodyToFlux(DtoMuscleGet.class)
+                .bodyToFlux(Object.class)
                 .collectList()
                 .block();
-        return null;
+        return getStatDtoList;
     }
 }

@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.training.WebClientController;
 import ru.training.config.BotConfig;
 
 import java.util.ArrayList;
@@ -21,11 +22,14 @@ import java.util.List;
 @Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
+    private final WebClientController webClientController;
 
     @Autowired
-    public TelegramBot(@Value("${bot.token}") String botToken, BotConfig botConfig) {
+    public TelegramBot(@Value("${bot.token}") String botToken, BotConfig botConfig,
+                       WebClientController webClientController) {
         super(botToken);
         this.botConfig = botConfig;
+        this.webClientController = webClientController;
         List<BotCommand> listOfBotCommands = new ArrayList<>();
         listOfBotCommands.add(new BotCommand("/start", "do start"));
         listOfBotCommands.add(new BotCommand("/testsmile", "bot will send a text with a smile"));
@@ -59,7 +63,16 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private void getTrainingProgram(Update update) {
         System.out.println(update.getMessage().getText());
-
+        List<Object> listOfMuscles = webClientController.getMuscle(update.getMessage().getText());
+        SendMessage message = new SendMessage();
+        message.setChatId(update.getMessage().getChatId());
+        message.setText(listOfMuscles.toString());
+        try {
+            execute(message);
+        } catch (TelegramApiException telegramApiException) {
+            log.error("Message was not sent: {}", telegramApiException.getMessage());
+        }
+        System.out.println(listOfMuscles);
     }
 
     private void recieveMuscleType(Update update) {
