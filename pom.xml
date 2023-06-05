@@ -5,6 +5,7 @@
     <modules>
         <module>main-service</module>
         <module>telegram-bot</module>
+        <module>http-web-client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
