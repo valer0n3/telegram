@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.training.categories.model.CategoryModel;
 import ru.training.categories.service.CategoryServiceImpl;
 import ru.training.muscles.dto.DtoMuscleGet;
+import ru.training.muscles.dto.DtoMuscleGetAll;
 import ru.training.muscles.dto.DtoMusclePost;
 import ru.training.muscles.mapper.MuscleMapper;
 import ru.training.muscles.model.MuscleModel;
@@ -44,5 +45,12 @@ public class MuscleServiceImpl implements MuscleService {
     public List<DtoMuscleGet> getMuscleTrainingProgram(String muscleName) {
         return muscleRepository.findAllByMuscleNameContainingIgnoreCase(muscleName).stream()
                 .map(muscleMapper::mapMuscleModelToDtoMuscleGet).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DtoMuscleGetAll> getAllMuscles() {
+        return muscleRepository.findAll().stream()
+                .map(muscleMapper::mapMuscleModelToDtoAllMuscleGet)
+                .collect(Collectors.toList());
     }
 }

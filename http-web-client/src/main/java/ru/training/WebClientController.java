@@ -27,4 +27,17 @@ public class WebClientController {
                 .block();
         return getStatDtoList;
     }
+
+    public List<Object> getAllMuscles() {
+        List<Object> dtoMuscleGet = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/muscle/all")
+                        .build())
+                //.uri("${main-service.url}/muscle")
+                .retrieve()
+                .bodyToFlux(Object.class)
+                .collectList()
+                .block();
+        return dtoMuscleGet;
+    }
 }
