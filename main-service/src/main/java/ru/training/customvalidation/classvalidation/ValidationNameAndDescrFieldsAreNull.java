@@ -17,6 +17,7 @@ public @interface ValidationNameAndDescrFieldsAreNull {
     String field();
 
     String fieldMatch();
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};

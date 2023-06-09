@@ -29,8 +29,6 @@ public class TrainingErrorHandler {
                 trainingNotFoundException.getMessage(), LocalDateTime.now());
     }
 
-
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public TrainingExceptionModel integrityViolation(DataIntegrityViolationException dataIntegrityViolationException) {
@@ -46,6 +44,4 @@ public class TrainingErrorHandler {
         return new TrainingExceptionModel(HttpStatus.CONFLICT.toString(),
                 constraintViolationException.getMessage().toString(), LocalDateTime.now());
     }
-
-
 }

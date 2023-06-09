@@ -6,7 +6,6 @@ import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
-import java.util.function.BiFunction;
 
 class DtoCategoryPostTest {
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -15,6 +14,5 @@ class DtoCategoryPostTest {
     public void testDtoCatetgoryPostNull() {
         DtoCategoryPost dtoCategoryPost = new DtoCategoryPost();
         Set<ConstraintViolation<DtoCategoryPost>> validate = validator.validate(dtoCategoryPost);
-        BiFunction
     }
 }

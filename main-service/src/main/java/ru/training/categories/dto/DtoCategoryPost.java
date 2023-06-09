@@ -16,5 +16,4 @@ public class DtoCategoryPost {
     @NotBlank
     private String name;
     private String description;
-    //TODO delete NOt null annotation
 }

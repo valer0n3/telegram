@@ -23,6 +23,6 @@ public interface MuscleMapper {
     @Mapping(target = "muscleId", source = "muscleId")
     @Mapping(target = "muscleName", source = "muscleName")
     @Mapping(target = "muscleDescription", source = "muscleDescription")
-    @Mapping(target = "trainingProgramModel", source = "trainingProgramModel")
+    @Mapping(target = "listOfTrainingPrograms", source = "trainingProgramModel")
     DtoMuscleGet mapMuscleModelToDtoMuscleGet(MuscleModel muscleModel);
 }

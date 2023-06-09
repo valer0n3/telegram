@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
-import ru.training.categories.dto.DtoCategoryPost;
 
 import java.util.Set;
 
@@ -13,8 +12,8 @@ class DtoClassTestTest {
 
     @Test
     public void testBothFieldsAreNull() {
-        DtoClassTest  dtoClassTest = new DtoClassTest();
-dtoClassTest.setTest("  ");
+        DtoClassTest dtoClassTest = new DtoClassTest();
+        dtoClassTest.setTest("  ");
         dtoClassTest.setTest2("test");
         Set<ConstraintViolation<DtoClassTest>> validate = validator.validate(dtoClassTest);
         System.out.println(validate);

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.training.trainingprogram.model.TrainingProgramModel;
+import ru.training.trainingprogram.dto.DtoTrainingProgramGet;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public class DtoMuscleGet {
     private Long muscleId;
     private String muscleName;
     private String muscleDescription;
-    private List<TrainingProgramModel> trainingProgramModel;
+    private List<DtoTrainingProgramGet> listOfTrainingPrograms;
 }
