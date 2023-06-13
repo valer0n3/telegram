@@ -14,15 +14,15 @@ public class WebClientController {
         this.webClient = WebClient.create(statServerUrl);
     }
 
-    public List<Object> getMuscle(String muscle) {
-        List<Object> getStatDtoList = webClient.get()
+    public List<DtoMuscleGet> getMuscle(String muscle) {
+        List<DtoMuscleGet> getStatDtoList = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/muscle")
                         .queryParam("muscleName", muscle)
                         .build())
                 //.uri("${main-service.url}/muscle")
                 .retrieve()
-                .bodyToFlux(Object.class)
+                .bodyToFlux(DtoMuscleGet.class)
                 .collectList()
                 .block();
         return getStatDtoList;
@@ -33,11 +33,11 @@ public class WebClientController {
                 .uri(uriBuilder -> uriBuilder
                         .path("/muscle/all")
                         .build())
-                //.uri("${main-service.url}/muscle")
                 .retrieve()
                 .bodyToFlux(DtoMuscleGetAll.class)
                 .collectList()
                 .block();
+        System.out.println(dtoMuscleGet);
         return dtoMuscleGet;
     }
 }

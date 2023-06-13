@@ -3,10 +3,10 @@ package ru.training.service.Strategy;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.training.DtoMuscleGet;
 import ru.training.DtoMuscleGetAll;
 import ru.training.WebClientController;
 
@@ -21,10 +21,9 @@ public class BotButtons implements BotActions {
     @Override
     public SendMessage generatedMessage(Update update) {
         List<DtoMuscleGetAll> listOfMuscles = webClientController.getAllMuscles();
-        System.out.println(listOfMuscles);
         SendMessage message = new SendMessage();
         message.setChatId(update.getMessage().getChatId());
-        message.setText("Really?");
+        message.setText("Выберите название мышцы");
         message.setReplyMarkup(createButtonsInLIne(update, listOfMuscles));
         return message;
     }
@@ -35,8 +34,8 @@ public class BotButtons implements BotActions {
         List<InlineKeyboardButton> rowInLine = new ArrayList<>();
         for (int i = 0, j = 1; i < listOfMuscles.size(); i++, j++) {
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText(listOfMuscles.get(i).toString());
-            inlineKeyboardButton.setCallbackData(listOfMuscles.get(i).toString());
+            inlineKeyboardButton.setText(listOfMuscles.get(i).getMuscleName());
+            inlineKeyboardButton.setCallbackData(listOfMuscles.get(i).getMuscleName());
             rowInLine.add(inlineKeyboardButton);
             if (j % 4 == 0) {
                 rowsInLine.add(rowInLine);
@@ -48,21 +47,11 @@ public class BotButtons implements BotActions {
         return inlineKeyboardMarkup;
     }
 
-    public EditMessageText generateResponseOnButtonClick(Update update) {
-        String callBackDate = update.getCallbackQuery().getData();
-        int messageId = update.getCallbackQuery().getMessage().getMessageId();
-        long chatId = update.getCallbackQuery().getMessage().getChatId();
-        //edit message example:
-/*        if (callBackDate.equals("YES_BUTTON")) {
-            System.out.println("YES");
-            EditMessageText editMessageText = new EditMessageText();
-            editMessageText.setChatId(chatId);
-            editMessageText.setText("You pressed yes");
-            editMessageText.setMessageId(messageId);
-            return editMessageText;
-        } else {
-            System.out.println("NO");
-        }*/
-        return null;
+    public SendMessage generateResponseOnButtonClick(Update update) {
+        List<DtoMuscleGet> listOfMuscles = webClientController.getMuscle(update.getCallbackQuery().getData());
+        SendMessage message = new SendMessage();
+        message.setChatId(update.getCallbackQuery().getMessage().getChatId());
+        message.setText(listOfMuscles.toString());
+        return message;
     }
 }

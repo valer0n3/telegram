@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
@@ -56,12 +55,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             sendMessageToTelegram(message);
         } else if (update.hasCallbackQuery()) {
             BotButtons botButtons = (BotButtons) mapBotAction.get("/buttons");
-            EditMessageText editMessageText = botButtons.generateResponseOnButtonClick(update);
-            try {
-                execute(editMessageText);
-            } catch (TelegramApiException telegramApiException) {
-                log.error("Message was not sent: {}", telegramApiException.getMessage());
-            }
+            SendMessage message = botButtons.generateResponseOnButtonClick(update);
+            sendMessageToTelegram(message);
         }
     }
 
