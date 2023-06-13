@@ -7,12 +7,14 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.training.config.BotConfig;
 import ru.training.service.Strategy.BotActions;
+import ru.training.service.Strategy.BotButtons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         listOfBotCommands.add(new BotCommand("/smile", "bot will send a text with a smile"));
         listOfBotCommands.add(new BotCommand("/muscle", "bot will provide a training program for a muscle"));
         listOfBotCommands.add(new BotCommand("/buttons", "bot will provide all muscles"));
-
         try {
             execute(new SetMyCommands(listOfBotCommands, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException telegramApiException) {
@@ -53,6 +54,14 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
             SendMessage message = botActions.generatedMessage(update);
             sendMessageToTelegram(message);
+        } else if (update.hasCallbackQuery()) {
+            BotButtons botButtons = (BotButtons) mapBotAction.get("/buttons");
+            EditMessageText editMessageText = botButtons.generateResponseOnButtonClick(update);
+            try {
+                execute(editMessageText);
+            } catch (TelegramApiException telegramApiException) {
+                log.error("Message was not sent: {}", telegramApiException.getMessage());
+            }
         }
     }
 
