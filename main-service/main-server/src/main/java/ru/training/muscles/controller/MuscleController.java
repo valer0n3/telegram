@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.training.muscles.dto.DtoMuscleGet;
-import ru.training.muscles.dto.DtoMuscleGetAll;
+import ru.training.DtoMuscleGet;
+import ru.training.DtoMuscleGetAll;
 import ru.training.muscles.dto.DtoMusclePost;
 import ru.training.muscles.service.MuscleService;
 

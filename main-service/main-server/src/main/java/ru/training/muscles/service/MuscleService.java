@@ -1,7 +1,7 @@
 package ru.training.muscles.service;
 
-import ru.training.muscles.dto.DtoMuscleGet;
-import ru.training.muscles.dto.DtoMuscleGetAll;
+import ru.training.DtoMuscleGet;
+import ru.training.DtoMuscleGetAll;
 import ru.training.muscles.dto.DtoMusclePost;
 
 import java.util.List;

@@ -1,20 +1,16 @@
-package ru.training.muscles.dto;
+package ru.training;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.training.trainingprogram.dto.DtoTrainingProgramGet;
-
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DtoMuscleGet {
+public class DtoMuscleGetAll {
     private Long muscleId;
     private String muscleName;
     private String muscleDescription;
-    private List<DtoTrainingProgramGet> listOfTrainingPrograms;
 }

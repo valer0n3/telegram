@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.training.DtoMuscleGetAll;
 import ru.training.WebClientController;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class BotButtons implements BotActions {
 
     @Override
     public SendMessage generatedMessage(Update update) {
-        List<Object> listOfMuscles = webClientController.getAllMuscles();
+        List<DtoMuscleGetAll> listOfMuscles = webClientController.getAllMuscles();
         System.out.println(listOfMuscles);
         SendMessage message = new SendMessage();
         message.setChatId(update.getMessage().getChatId());
@@ -28,7 +29,7 @@ public class BotButtons implements BotActions {
         return message;
     }
 
-    private InlineKeyboardMarkup createButtonsInLIne(Update update, List<Object> listOfMuscles) {
+    private InlineKeyboardMarkup createButtonsInLIne(Update update, List<DtoMuscleGetAll> listOfMuscles) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine = new ArrayList<>();
