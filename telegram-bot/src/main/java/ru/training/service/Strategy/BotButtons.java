@@ -24,28 +24,35 @@ public class BotButtons implements BotActions {
         SendMessage message = new SendMessage();
         message.setChatId(update.getMessage().getChatId());
         message.setText("Really?");
+        message.setReplyMarkup(createButtonsInLIne(update, listOfMuscles));
+        return message;
+    }
+
+    private InlineKeyboardMarkup createButtonsInLIne(Update update, List<Object> listOfMuscles) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
         List<InlineKeyboardButton> rowInLine = new ArrayList<>();
-        InlineKeyboardButton yesButton = new InlineKeyboardButton();
-        yesButton.setText("Yes");
-        yesButton.setCallbackData("YES_BUTTON");
-        InlineKeyboardButton noButton = new InlineKeyboardButton();
-        noButton.setText("No");
-        noButton.setCallbackData("NO_BUTTON");
-        rowInLine.add(yesButton);
-        rowInLine.add(noButton);
+        for (int i = 0, j = 1; i < listOfMuscles.size(); i++, j++) {
+            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+            inlineKeyboardButton.setText(listOfMuscles.get(i).toString());
+            inlineKeyboardButton.setCallbackData(listOfMuscles.get(i).toString());
+            rowInLine.add(inlineKeyboardButton);
+            if (j % 4 == 0) {
+                rowsInLine.add(rowInLine);
+                rowInLine = new ArrayList<>();
+            }
+        }
         rowsInLine.add(rowInLine);
         inlineKeyboardMarkup.setKeyboard(rowsInLine);
-        message.setReplyMarkup(inlineKeyboardMarkup);
-        return message;
+        return inlineKeyboardMarkup;
     }
 
     public EditMessageText generateResponseOnButtonClick(Update update) {
         String callBackDate = update.getCallbackQuery().getData();
         int messageId = update.getCallbackQuery().getMessage().getMessageId();
         long chatId = update.getCallbackQuery().getMessage().getChatId();
-        if (callBackDate.equals("YES_BUTTON")) {
+        //edit message example:
+/*        if (callBackDate.equals("YES_BUTTON")) {
             System.out.println("YES");
             EditMessageText editMessageText = new EditMessageText();
             editMessageText.setChatId(chatId);
@@ -54,7 +61,7 @@ public class BotButtons implements BotActions {
             return editMessageText;
         } else {
             System.out.println("NO");
-        }
+        }*/
         return null;
     }
 }
