@@ -44,7 +44,8 @@ public class MuscleServiceImpl implements MuscleService {
     @Override
     public List<DtoMuscleGet> getMuscleTrainingProgram(String muscleName) {
         return muscleRepository.findAllByMuscleNameContainingIgnoreCase(muscleName).stream()
-                .map(muscleMapper::mapMuscleModelToDtoMuscleGet).collect(Collectors.toList());
+                .map(muscleMapper::mapMuscleModelToDtoMuscleGet)
+                .collect(Collectors.toList());
     }
 
     @Override

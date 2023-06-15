@@ -13,6 +13,8 @@ import ru.training.WebClientController;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.training.config.TelegramBotConstants.AMOUNT_OF_RAWS_FOR_BUTTONS;
+
 @Component("/buttons")
 @AllArgsConstructor
 public class BotButtons implements BotActions {
@@ -35,9 +37,9 @@ public class BotButtons implements BotActions {
         for (int i = 0, j = 1; i < listOfMuscles.size(); i++, j++) {
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText(listOfMuscles.get(i).getMuscleName());
-            inlineKeyboardButton.setCallbackData(listOfMuscles.get(i).getMuscleName());
+            inlineKeyboardButton.setCallbackData(listOfMuscles.get(i).getMuscleName());//TODO change to ID
             rowInLine.add(inlineKeyboardButton);
-            if (j % 4 == 0) {
+            if (j % AMOUNT_OF_RAWS_FOR_BUTTONS == 0) {
                 rowsInLine.add(rowInLine);
                 rowInLine = new ArrayList<>();
             }
@@ -46,7 +48,7 @@ public class BotButtons implements BotActions {
         inlineKeyboardMarkup.setKeyboard(rowsInLine);
         return inlineKeyboardMarkup;
     }
-
+//TODO Liquibase, Flyway
     public SendMessage generateResponseOnButtonClick(Update update) {
         List<DtoMuscleGet> listOfMuscles = webClientController.getMuscle(update.getCallbackQuery().getData());
         SendMessage message = new SendMessage();
