@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.training.DtoMuscleGet;
 import ru.training.DtoMuscleGetAll;
+import ru.training.DtoTrainingProgramGet;
 import ru.training.WebClientController;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class BotButtons implements BotActions {
         for (int i = 0, j = 1; i < listOfMuscles.size(); i++, j++) {
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText(listOfMuscles.get(i).getMuscleName());
-            inlineKeyboardButton.setCallbackData(listOfMuscles.get(i).getMuscleName());//TODO change to ID
+            inlineKeyboardButton.setCallbackData(String.valueOf(listOfMuscles.get(i).getMuscleId()));
             rowInLine.add(inlineKeyboardButton);
             if (j % AMOUNT_OF_RAWS_FOR_BUTTONS == 0) {
                 rowsInLine.add(rowInLine);
@@ -48,12 +49,27 @@ public class BotButtons implements BotActions {
         inlineKeyboardMarkup.setKeyboard(rowsInLine);
         return inlineKeyboardMarkup;
     }
-//TODO Liquibase, Flyway
+
     public SendMessage generateResponseOnButtonClick(Update update) {
         List<DtoMuscleGet> listOfMuscles = webClientController.getMuscle(update.getCallbackQuery().getData());
+        String returnedText = checkIfTrainingExists(listOfMuscles);
         SendMessage message = new SendMessage();
         message.setChatId(update.getCallbackQuery().getMessage().getChatId());
-        message.setText(listOfMuscles.toString());
+        message.setText(returnedText);
         return message;
+    }
+
+    private String checkIfTrainingExists(List<DtoMuscleGet> listOfMuscles) {
+        if (!listOfMuscles.get(0).getListOfTrainingPrograms().isEmpty()) {
+            return String.format("Программа тренировок для мышцы: %s отсутствует", listOfMuscles.get(0).getMuscleName());
+        } else {
+            StringBuilder stringBuilder = new StringBuilder(String
+                    .format("Список тренировок для мышцы: %s", listOfMuscles.get(0).getMuscleName()));
+            for (DtoTrainingProgramGet dtoTrainingProgramGet : listOfMuscles.get(0).getListOfTrainingPrograms()) {
+                stringBuilder.append("/n" + dtoTrainingProgramGet.getTrainingProgramName() + "" +
+                        "/n" + dtoTrainingProgramGet.getTrainingProgramDescription());
+            }
+            return stringBuilder.toString();
+        }
     }
 }
