@@ -18,7 +18,7 @@ import java.util.List;
 
 import static ru.training.config.TelegramBotConstants.AMOUNT_OF_RAWS_FOR_BUTTONS;
 
-@Component("/buttons")
+@Component("/training")
 @AllArgsConstructor
 public class BotButtons implements BotActions {
     private final WebClientController webClientController;

@@ -2,7 +2,6 @@ package ru.training.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -29,14 +28,13 @@ public class TelegramBot extends TelegramLongPollingBot {
     private Map<String, BotActions> mapBotAction;
 
     @Autowired
-    public TelegramBot(@Value("${bot.token}") String botToken, BotConfig botConfig) {
-        super(botToken);
+    public TelegramBot(BotConfig botConfig) {
+        super(botConfig.getToken());
         this.botConfig = botConfig;
         List<BotCommand> listOfBotCommands = new ArrayList<>();
-        listOfBotCommands.add(new BotCommand("/start", "do start"));
+        listOfBotCommands.add(new BotCommand("/start", "bot's description"));
         listOfBotCommands.add(new BotCommand("/smile", "bot will send a text with a smile"));
-        listOfBotCommands.add(new BotCommand("/muscle", "bot will provide a training program for a muscle"));
-        listOfBotCommands.add(new BotCommand("/buttons", "bot will provide all muscles"));
+        listOfBotCommands.add(new BotCommand("/training", "bot will provide a training program for chosen muscle"));
         try {
             execute(new SetMyCommands(listOfBotCommands, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException telegramApiException) {
@@ -56,7 +54,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             SendMessage message = botActions.generatedMessage(update);
             sendMessageToTelegram(message);
         } else if (update.hasCallbackQuery()) {
-            BotButtons botButtons = (BotButtons) mapBotAction.get("/buttons");
+            BotButtons botButtons = (BotButtons) mapBotAction.get("/training");
             EditMessageText message = botButtons.generateResponseOnButtonClick(update);
             sendMessageToTelegram(message);
         }
