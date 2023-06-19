@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
@@ -55,7 +57,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             sendMessageToTelegram(message);
         } else if (update.hasCallbackQuery()) {
             BotButtons botButtons = (BotButtons) mapBotAction.get("/buttons");
-            SendMessage message = botButtons.generateResponseOnButtonClick(update);
+            EditMessageText message = botButtons.generateResponseOnButtonClick(update);
             sendMessageToTelegram(message);
         }
     }
@@ -71,11 +73,13 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendMessageToTelegram(SendMessage message) {
-        try {
-            execute(message);
-        } catch (TelegramApiException telegramApiException) {
-            log.error("Message was not sent: {}", telegramApiException.getMessage());
+    private void sendMessageToTelegram(BotApiMethod message) {
+        if (message instanceof SendMessage || message instanceof EditMessageText) {
+            try {
+                execute(message);
+            } catch (TelegramApiException telegramApiException) {
+                log.error("Message was not sent: {}", telegramApiException.getMessage());
+            }
         }
     }
 

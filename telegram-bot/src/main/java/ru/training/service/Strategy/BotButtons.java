@@ -1,8 +1,10 @@
 package ru.training.service.Strategy;
 
+import com.vdurmont.emoji.EmojiParser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -50,24 +52,32 @@ public class BotButtons implements BotActions {
         return inlineKeyboardMarkup;
     }
 
-    public SendMessage generateResponseOnButtonClick(Update update) {
-        List<DtoMuscleGet> listOfMuscles = webClientController.getMuscle(update.getCallbackQuery().getData());
-        String returnedText = checkIfTrainingExists(listOfMuscles);
-        SendMessage message = new SendMessage();
-        message.setChatId(update.getCallbackQuery().getMessage().getChatId());
-        message.setText(returnedText);
-        return message;
+    public EditMessageText generateResponseOnButtonClick(Update update) {
+        List<DtoMuscleGet> listOfMuscles = webClientController.getMuscle(Long.valueOf(update.getCallbackQuery().getData()));
+        EditMessageText editMessageText = new EditMessageText();
+        editMessageText.setChatId(update.getCallbackQuery().getMessage().getChatId());
+        editMessageText.setMessageId(update.getCallbackQuery().getMessage().getMessageId());
+        editMessageText.setText(checkIfTrainingExists(listOfMuscles));
+        return editMessageText;
+
+      /*  System.out.println("YES");
+
+        editMessageText.setChatId(chatId);
+        editMessageText.setText("You pressed yes");
+        editMessageText.setMessageId(messageId);
+        return editMessageText;*/
     }
 
     private String checkIfTrainingExists(List<DtoMuscleGet> listOfMuscles) {
-        if (!listOfMuscles.get(0).getListOfTrainingPrograms().isEmpty()) {
+        if (listOfMuscles.get(0).getListOfTrainingPrograms().isEmpty()) {
             return String.format("Программа тренировок для мышцы: %s отсутствует", listOfMuscles.get(0).getMuscleName());
         } else {
             StringBuilder stringBuilder = new StringBuilder(String
-                    .format("Список тренировок для мышцы: %s", listOfMuscles.get(0).getMuscleName()));
+                    .format("Список тренировок для мышцы: %s %s", listOfMuscles.get(0).getMuscleName(),
+                            EmojiParser.parseToUnicode(":muscle:")));
             for (DtoTrainingProgramGet dtoTrainingProgramGet : listOfMuscles.get(0).getListOfTrainingPrograms()) {
-                stringBuilder.append("/n" + dtoTrainingProgramGet.getTrainingProgramName() + "" +
-                        "/n" + dtoTrainingProgramGet.getTrainingProgramDescription());
+                stringBuilder.append("\n---------------------\n" + dtoTrainingProgramGet.getTrainingProgramName() + ":" +
+                        "\n" + dtoTrainingProgramGet.getTrainingProgramDescription());
             }
             return stringBuilder.toString();
         }

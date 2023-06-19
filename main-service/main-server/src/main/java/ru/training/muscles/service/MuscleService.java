@@ -9,7 +9,7 @@ import java.util.List;
 public interface MuscleService {
     DtoMuscleGet saveNewMuscle(DtoMusclePost dtoMusclePost);
 
-    List<DtoMuscleGet> getMuscleTrainingProgram(String muscleName);
+    List<DtoMuscleGet> getMuscleTrainingProgram(Long muscleId);
 
     List<DtoMuscleGetAll> getAllMuscles();
 }

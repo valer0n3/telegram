@@ -14,11 +14,11 @@ public class WebClientController {
         this.webClient = WebClient.create(statServerUrl);
     }
 
-    public List<DtoMuscleGet> getMuscle(String muscle) {
+    public List<DtoMuscleGet> getMuscle(Long muscleId) {
         List<DtoMuscleGet> getStatDtoList = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/muscle")
-                        .queryParam("muscleName", muscle)
+                        .queryParam("muscleId", muscleId)
                         .build())
                 //.uri("${main-service.url}/muscle")
                 .retrieve()

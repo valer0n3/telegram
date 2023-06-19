@@ -1,7 +1,7 @@
 package ru.training.muscles.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +30,9 @@ public class MuscleController {
     }
 
     @GetMapping
-    public List<DtoMuscleGet> getMuscleTrainingProgram(@RequestParam(name = "muscleName") @NotBlank String muscleName) {
-        return muscleService.getMuscleTrainingProgram(muscleName);
+    public List<DtoMuscleGet> getMuscleTrainingProgram(@RequestParam(name = "muscleId") @NotNull Long muscleId) {
+        System.out.println("******* " + muscleId);
+        return muscleService.getMuscleTrainingProgram(muscleId);
     }
 
     @GetMapping("/all")
