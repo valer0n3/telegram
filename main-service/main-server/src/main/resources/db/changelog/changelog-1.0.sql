@@ -1,11 +1,5 @@
 --liquibase formatted sql
 --changeset vvv:1
-/*DROP TABLE IF EXISTS category CASCADE;
-DROP TABLE IF EXISTS muscle CASCADE;
-DROP TABLE IF EXISTS training_program CASCADE;
-DROP TABLE IF EXISTS muscle_training_program CASCADE;
-  DROP TABLE IF EXISTS databasechangelog CASCADE;
-  DROP TABLE IF EXISTS databasechangeloglock CASCADE;*/
 
 CREATE TABLE IF NOT EXISTS category
 (

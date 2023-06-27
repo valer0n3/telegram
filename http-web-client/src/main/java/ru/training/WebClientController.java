@@ -37,7 +37,6 @@ public class WebClientController {
                 .bodyToFlux(DtoMuscleGetAll.class)
                 .collectList()
                 .block();
-        System.out.println(dtoMuscleGet);
         return dtoMuscleGet;
     }
 }

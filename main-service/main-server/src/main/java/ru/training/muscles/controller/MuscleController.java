@@ -31,7 +31,6 @@ public class MuscleController {
 
     @GetMapping
     public List<DtoMuscleGet> getMuscleTrainingProgram(@RequestParam(name = "muscleId") @NotNull Long muscleId) {
-        System.out.println("******* " + muscleId);
         return muscleService.getMuscleTrainingProgram(muscleId);
     }
 

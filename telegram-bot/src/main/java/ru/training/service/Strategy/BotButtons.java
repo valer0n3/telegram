@@ -59,13 +59,6 @@ public class BotButtons implements BotActions {
         editMessageText.setMessageId(update.getCallbackQuery().getMessage().getMessageId());
         editMessageText.setText(checkIfTrainingExists(listOfMuscles));
         return editMessageText;
-
-      /*  System.out.println("YES");
-
-        editMessageText.setChatId(chatId);
-        editMessageText.setText("You pressed yes");
-        editMessageText.setMessageId(messageId);
-        return editMessageText;*/
     }
 
     private String checkIfTrainingExists(List<DtoMuscleGet> listOfMuscles) {
