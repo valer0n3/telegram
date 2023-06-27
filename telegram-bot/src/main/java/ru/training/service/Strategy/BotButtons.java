@@ -7,21 +7,23 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.training.DtoMuscleGet;
 import ru.training.DtoMuscleGetAll;
 import ru.training.DtoTrainingProgramGet;
 import ru.training.WebClientController;
+import ru.training.service.ButtonCreation;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static ru.training.config.TelegramBotConstants.AMOUNT_OF_RAWS_FOR_BUTTONS;
 
 @Component("/training")
 @AllArgsConstructor
-public class BotButtons implements BotActions {
+public class BotButtons implements BotActions, ButtonCreation {
     private final WebClientController webClientController;
+
+    @Override
+    public InlineKeyboardMarkup createButtonsInLine(Update update, List<DtoMuscleGetAll> listOfMuscles) {
+        return ButtonCreation.super.createButtonsInLine(update, listOfMuscles);
+    }
 
     @Override
     public SendMessage generatedMessage(Update update) {
@@ -29,27 +31,8 @@ public class BotButtons implements BotActions {
         SendMessage message = new SendMessage();
         message.setChatId(update.getMessage().getChatId());
         message.setText("Выберите название мышцы");
-        message.setReplyMarkup(createButtonsInLIne(update, listOfMuscles));
+        message.setReplyMarkup(createButtonsInLine(update, listOfMuscles));
         return message;
-    }
-
-    private InlineKeyboardMarkup createButtonsInLIne(Update update, List<DtoMuscleGetAll> listOfMuscles) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
-        List<InlineKeyboardButton> rowInLine = new ArrayList<>();
-        for (int i = 0, j = 1; i < listOfMuscles.size(); i++, j++) {
-            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText(listOfMuscles.get(i).getMuscleName());
-            inlineKeyboardButton.setCallbackData(String.valueOf(listOfMuscles.get(i).getMuscleId()));
-            rowInLine.add(inlineKeyboardButton);
-            if (j % AMOUNT_OF_RAWS_FOR_BUTTONS == 0) {
-                rowsInLine.add(rowInLine);
-                rowInLine = new ArrayList<>();
-            }
-        }
-        rowsInLine.add(rowInLine);
-        inlineKeyboardMarkup.setKeyboard(rowsInLine);
-        return inlineKeyboardMarkup;
     }
 
     public EditMessageText generateResponseOnButtonClick(Update update) {
