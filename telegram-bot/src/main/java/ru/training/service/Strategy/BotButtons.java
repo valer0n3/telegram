@@ -3,6 +3,7 @@ package ru.training.service.Strategy;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Component("/training")
 @AllArgsConstructor
+@Validated
 public class BotButtons implements BotActions, ButtonCreation {
     private final WebClientController webClientController;
 
@@ -44,9 +46,11 @@ public class BotButtons implements BotActions, ButtonCreation {
         return editMessageText;
     }
 
-    private String checkIfTrainingExists(List<DtoMuscleGet> listOfMuscles) {
-        if (listOfMuscles.get(0).getListOfTrainingPrograms().isEmpty()) {
-            return String.format("Программа тренировок для мышцы: %s отсутствует", listOfMuscles.get(0).getMuscleName());
+    public String checkIfTrainingExists(List<DtoMuscleGet> listOfMuscles) {
+        if (listOfMuscles == null || listOfMuscles.isEmpty() || listOfMuscles.get(0).getListOfTrainingPrograms() == null
+                || listOfMuscles.get(0)
+                .getListOfTrainingPrograms().isEmpty()) {
+            return "Программа тренировок отсутствует";
         } else {
             StringBuilder stringBuilder = new StringBuilder(String
                     .format("Список тренировок для мышцы: %s %s", listOfMuscles.get(0).getMuscleName(),
