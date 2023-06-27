@@ -17,13 +17,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = MuscleController.class)
 class MuscleControllerTest {
+    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
     private MuscleServiceImpl muscleService;
-    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Test
     void saveNewMuscle() {

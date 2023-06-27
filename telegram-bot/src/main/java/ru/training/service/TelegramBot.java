@@ -36,7 +36,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         listOfBotCommands.add(new BotCommand("/smile", "bot will send a text with a smile"));
         listOfBotCommands.add(new BotCommand("/training", "bot will provide a training program for chosen muscle"));
         try {
-            execute(new SetMyCommands(listOfBotCommands, new BotCommandScopeDefault(), null));
+            execute(new SetMyCommands(listOfBotCommands, new BotCommandScopeDefault(), "ru"));
         } catch (TelegramApiException telegramApiException) {
             log.error("Couldn't create bot's menu: {}", telegramApiException.getMessage());
         }
