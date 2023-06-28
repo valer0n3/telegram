@@ -29,12 +29,22 @@ VALUES ('тренировка бицепса 1', 'Подъемы штанги н
        ('комплексная тренировка ног', 'присяды с утяжелением 5 подходом по 10 раз');
 
 INSERT INTO muscle_training_program (muscle_id, training_program_id)
-VALUES (1, 1),
-       (1, 4),
-       (2, 2),
-       (11, 3),
-       (5, 5),
-       (6, 5),
-       (7, 5),
-       (8, 5);
+VALUES ((SELECT muscle_id FROM muscle WHERE name_ = 'бицепс'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'тренировка бицепса 1')),
+       ((SELECT muscle_id FROM muscle WHERE name_ = 'бицепс'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'тренировка бицепса 2')),
+       ((SELECT muscle_id FROM muscle WHERE name_ = 'трицепс'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'тренировка трицепса 1')),
+       ((SELECT muscle_id FROM muscle WHERE name_ = 'пресс'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'тренировка пресса 1')),
+       ((SELECT muscle_id FROM muscle WHERE name_ = 'квадрицепс бедра'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'комплексная тренировка ног')),
+       ((SELECT muscle_id FROM muscle WHERE name_ = 'бицепс бедра'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'комплексная тренировка ног')),
+       ((SELECT muscle_id FROM muscle WHERE name_ = 'икроножные'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'комплексная тренировка ног')),
+       ((SELECT muscle_id FROM muscle WHERE name_ = 'ягодицы'),
+        (SELECT training_program_id FROM training_program WHERE name_ = 'комплексная тренировка ног'));
+
+
 
