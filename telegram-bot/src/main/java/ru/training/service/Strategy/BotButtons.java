@@ -14,6 +14,7 @@ import ru.training.DtoTrainingProgramGet;
 import ru.training.WebClientController;
 import ru.training.service.ButtonCreation;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -45,6 +46,7 @@ public class BotButtons implements BotActions, ButtonCreation {
     @Override
     public SendMessage generatedMessage(Update update) {
         List<DtoMuscleGetAll> listOfMuscles = webClientController.getAllMuscles();
+        listOfMuscles.sort(Comparator.comparing(DtoMuscleGetAll::getMuscleName));
         SendMessage message = new SendMessage();
         message.setChatId(update.getMessage().getChatId());
         message.setText("Выберите название мышцы");
