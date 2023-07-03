@@ -1,6 +1,5 @@
 package ru.training.muscles.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import lombok.SneakyThrows;
@@ -20,8 +19,6 @@ class MuscleControllerTest {
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
     @MockBean
     private MuscleServiceImpl muscleService;
 
@@ -36,6 +33,7 @@ class MuscleControllerTest {
         MvcResult mvcResult = mockMvc.perform(get("/muscle?muscleId={muscleId}", muscleId))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+        mvcResult.getResponse();
     }
 
     @Test

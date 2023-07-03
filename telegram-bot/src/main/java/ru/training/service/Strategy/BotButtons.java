@@ -15,6 +15,9 @@ import ru.training.WebClientController;
 import ru.training.service.ButtonCreation;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static ru.training.config.TelegramBotConstants.AMOUNT_OF_RAWS_FOR_BUTTONS;
 
 @Component("/training")
 @AllArgsConstructor
@@ -22,9 +25,21 @@ import java.util.List;
 public class BotButtons implements BotActions, ButtonCreation {
     private final WebClientController webClientController;
 
-    @Override
-    public InlineKeyboardMarkup createButtonsInLine(Update update, List<DtoMuscleGetAll> listOfMuscles) {
-        return ButtonCreation.super.createButtonsInLine(update, listOfMuscles);
+    public InlineKeyboardMarkup getButtonsAndNameThem(List<DtoMuscleGetAll> listOfMuscles) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = ButtonCreation.super.createButtonsInLine(listOfMuscles.size(), AMOUNT_OF_RAWS_FOR_BUTTONS);
+        addTextAndCallBackDataToButtons(inlineKeyboardMarkup, listOfMuscles);
+        return inlineKeyboardMarkup;
+    }
+
+    private void addTextAndCallBackDataToButtons(InlineKeyboardMarkup inlineKeyboardMarkup, List<DtoMuscleGetAll> listOfMuscles) {
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        inlineKeyboardMarkup.getKeyboard().stream()
+                .flatMap(inlineKeyboardButtons -> inlineKeyboardButtons.stream())
+                .forEach(inlineKeyboardButton -> {
+                    inlineKeyboardButton.setText(listOfMuscles.get(atomicInteger.get()).getMuscleName());
+                    inlineKeyboardButton.setCallbackData(String.valueOf(listOfMuscles.get(atomicInteger.get()).getMuscleId()));
+                    atomicInteger.getAndIncrement();
+                });
     }
 
     @Override
@@ -33,7 +48,7 @@ public class BotButtons implements BotActions, ButtonCreation {
         SendMessage message = new SendMessage();
         message.setChatId(update.getMessage().getChatId());
         message.setText("Выберите название мышцы");
-        message.setReplyMarkup(createButtonsInLine(update, listOfMuscles));
+        message.setReplyMarkup(getButtonsAndNameThem(listOfMuscles));
         return message;
     }
 
